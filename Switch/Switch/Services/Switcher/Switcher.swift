@@ -3,10 +3,10 @@ import Haxcessibility
 import Combine
 
 class Switcher {
-  let forwardHotKey = Keyboard.HotKey(.option, .tab)
-  let reverseHotKey = Keyboard.HotKey([.option, .shift], .tab)
-  let closeHotKey = Keyboard.HotKey(.option, .w)
-  let cancelHotKey = Keyboard.HotKey(.option, .escape)
+  let forwardHotKey = Keyboard.HotKey(.control, .tab)
+  let reverseHotKey = Keyboard.HotKey([.control, .shift], .tab)
+  let closeHotKey = Keyboard.HotKey(.control, .w)
+  let cancelHotKey = Keyboard.HotKey(.control, .escape)
 
   private var commonModifiers: Keyboard.Modifiers {
     forwardHotKey.modifiers

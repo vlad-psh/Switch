@@ -24,15 +24,15 @@ import SwiftUI
 
 private let pThumbSz = CGFloat(128.0)
 private let pThumbPad = CGFloat(8.0)
-private let pSelThck = CGFloat(4.0)
+private let pSelThck = CGFloat(0)
 private let pSelPad = CGFloat(8.0)
-private let pHeight = (pThumbPad + pSelThck + pSelPad) * 2.0 + pThumbSz
-private let pWinRadius = CGFloat(20.0)
-private let pSelRadius = pWinRadius - pSelPad
+private let pHeight = (pThumbPad + pSelThck) * 2.0 + pThumbSz
+private let pWinRadius = CGFloat(4.0)
+private let pSelRadius = CGFloat(0)
 private let pItemSz = pThumbSz + pThumbPad + pSelThck + pSelPad
 private func pWidth(for count: Int) -> CGFloat {
   let cgn = CGFloat(max(count, 1))
-  return pThumbSz * cgn + (pThumbPad + pSelThck + pSelPad) * (cgn + CGFloat(1.0))
+  return (pThumbSz + pThumbPad + pSelThck + pSelPad) * cgn
 }
 private func scalingFactor(for count: Int, in geometry: GeometryProxy) -> CGFloat {
   min(
@@ -63,7 +63,7 @@ struct SwitcherView: View {
 
   private func hud(at scale: CGFloat) -> some View {
     Rectangle()
-    .fill(Color(NSColor.shadowColor).opacity(0.25))
+    .fill(Color(NSColor.controlColor).opacity(0.5))
     .cornerRadius(pWinRadius * scale)
     .frame(
       width: pWidth(for: state.windows.count) * scale,
@@ -75,7 +75,7 @@ struct SwitcherView: View {
   private func selectionBox(at scale: CGFloat) -> some View {
     ZStack { // can't fill *and* stroke a Shape!
       RoundedRectangle(cornerRadius: pSelRadius * scale)
-      .fill(Color(NSColor.shadowColor).opacity(0.5))
+      .fill(Color(NSColor.selectedContentBackgroundColor))
       .frame(
         width: (pThumbSz + pThumbPad + pThumbPad) * scale,
         height: (pThumbSz + pThumbPad + pThumbPad) * scale
@@ -90,7 +90,7 @@ struct SwitcherView: View {
     .offset(
       x: middleIndex(for: state.selection!) * scale * pItemSz
     )
-    .animation(.default)
+    .animation(.easeInOut(duration: 0.1))
   }
 
   var body: some View {
